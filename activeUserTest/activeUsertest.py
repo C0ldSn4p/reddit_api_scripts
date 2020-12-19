@@ -33,7 +33,7 @@ outputfile = "result.txt"
 
 
 ########################
-### helper functions ###
+### Helper Functions ###
 ########################
 
 def getLatestTimestamp(response_text):
@@ -50,14 +50,18 @@ def getLatestTimestamp(response_text):
 
 
 def waitIfNeeded(response):
-    headers = response.headers
-    ratelimitRemaining = float(headers["x-ratelimit-remaining"])
-    ratelimitReset = float(headers["x-ratelimit-reset"])
-    if ratelimitRemaining < 5:
-        print("WARNING: ratelimit close, sleep for "+str(ratelimitReset)+"s")
-        time.sleep(ratelimitReset)
-        
-        
+    try:
+        headers = response.headers
+        ratelimitRemaining = float(headers["x-ratelimit-remaining"])
+        ratelimitReset = float(headers["x-ratelimit-reset"])
+        if ratelimitRemaining < 5:
+            print("WARNING: ratelimit close, sleep for "+str(ratelimitReset)+"s")
+            time.sleep(ratelimitReset)
+    except:
+        print("ERROR reading ratelimit, wait 30s")
+        time.sleep(30)
+
+
 ####################
 ###### Set Up ######
 ####################
@@ -100,7 +104,7 @@ for user in users:
     if(timestamp == -2):
         bug.append(user)
         outstring+="BUG"
-    if(timestamp == -1):
+    elif(timestamp == -1):
         dead.append(user)
         outstring+="DEAD"
     elif(timestamp < timestamp_cutoff):
