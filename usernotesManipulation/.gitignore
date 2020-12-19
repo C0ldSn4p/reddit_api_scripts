@@ -1,0 +1,8 @@
+# I/O files
+clearTextUsernotes.json
+translatedUsernotes.csv
+translatedUsernotes.txt
+userlist.txt
+usernotes.json
+usernotes_purged.json
+users.py
