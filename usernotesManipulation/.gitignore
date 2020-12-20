@@ -3,6 +3,7 @@ clearTextUsernotes.json
 translatedUsernotes.csv
 translatedUsernotes.txt
 userlist.txt
+userlist_oldPermabanned.txt
 usernotes.json
 usernotes_purged.json
 users.py

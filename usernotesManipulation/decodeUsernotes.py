@@ -23,8 +23,10 @@ blobOutputFile = "clearTextUsernotes.json"
 humanReadableFile = "translatedUsernotes.txt"
 humanReadableCSV = "translatedUsernotes.csv"
 userListFile = "userlist.txt" # list of all users to be able to run other scripts on them (e.g. test if account active)
+oldPermabannedUserListFile = "userlist_oldPermabanned.txt" # list of all users to be able to run other scripts on them (e.g. test if account active)
 
-
+permabannedFlags = [9, 16] # tag of permanent ban
+timestampCutOff = 1577836800 # 01/01/2020
 
 ########################
 ### Helper Functions ###
@@ -45,8 +47,10 @@ class User:
     def __init__(self, username):
         self.username = username
         self.notes = []
+        self.rawNotes = []
     
-    def addNote(self, rawnote):
+    def addNote(self, note):
+        self.rawNotes.append(note)
         cleanNote = {}
         cleanNote['warning'] = warnings[note['w']]
         cleanNote['date'] = datetime.utcfromtimestamp(note['t']).strftime('%Y-%m-%d %H:%M:%S')
@@ -76,6 +80,9 @@ class User:
             first = False
             curNote -=1
         return s
+        
+    def isOldPermaBanned(self):
+        return (self.rawNotes[0]['w'] in permabannedFlags) and (self.rawNotes[0]['t'] < timestampCutOff)
 
 
 
@@ -100,6 +107,7 @@ warnings = rawJson['constants']['warnings']
 usernotes = json.loads(cleartext)
 userList = []
 humanReadableNotes = []
+oldPermabannedUserList = []
 
 for user in usernotes:
     userList.append(user)
@@ -107,6 +115,8 @@ for user in usernotes:
     for note in usernotes[user]['ns']:
         userObj.addNote(note)
     humanReadableNotes.append(userObj)
+    if userObj.isOldPermaBanned():
+        oldPermabannedUserList.append(user)
 
 with open(humanReadableFile,'w') as output:
     for user in humanReadableNotes:
@@ -119,3 +129,6 @@ with open(humanReadableCSV,'w') as output:
 
 with open(userListFile,'w') as output:        
     output.write(str(userList))
+    
+with open(oldPermabannedUserListFile,'w') as output:        
+    output.write(str(oldPermabannedUserList))

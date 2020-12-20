@@ -43,3 +43,7 @@ Get the flair usage data from a subreddit
 ## Active user test
 
 Sort a list of users into active, old, dead and active but empty with regards to a cutoff timestamp.
+
+## Usernotes Manipulation
+
+Decode usernotes into readbale format and allow to purge users from it.
