@@ -26,6 +26,7 @@ from secret_keys import conf
 userFlairDataFilename = "out_flair_data.py" #.py with all user flair data
 flairListJsonFilename = "out_flair_list.json" #.json with the list of flair available
 outputFilename = "flair_stats.txt"
+rawUsageFilename = "raw_usage_data.txt"
 
 subredditName = "france"
 
@@ -42,6 +43,8 @@ userFlairData = {} # global dict with the user flair data
 def setupFile():
     with open(userFlairDataFilename, 'w') as out_file:
         out_file.write('userFlairData = {\n')
+    with open(rawUsageFilename, 'w') as out_file:
+        out_file.write('\n')
 
 def finalizeFile():
     with open(userFlairDataFilename, 'a') as out_file:
@@ -53,6 +56,8 @@ def processFlairResponseJSON(response_text):
         print("Error no users")
         return ''
     users = jsonData['users']
+    with open(rawUsageFilename, 'a') as out_file:
+        out_file.write(str(users))
     with open(userFlairDataFilename, 'a') as out_file:
         for user in users:
             try:
