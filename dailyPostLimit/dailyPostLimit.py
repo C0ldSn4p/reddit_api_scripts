@@ -57,7 +57,7 @@ def processPostResponseJSON(response_text, postHistory):
     
     for itemRaw in data['children']:
         item = itemRaw['data']
-        time = int(item['created'])
+        time = int(item['created_utc'])
         author = item['author']
         link = "https://www.reddit.com"+item['permalink']
         if time < timecutoff: # exit loop if timecutoff is reached
