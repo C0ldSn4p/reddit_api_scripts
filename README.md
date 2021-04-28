@@ -36,13 +36,20 @@ print(x.text)
 
 See each script for the relevant scope required
 
-## Flair Data
-
-Get the flair usage data from a subreddit
 
 ## Active user test
 
 Sort a list of users into active, old, dead and active but empty with regards to a cutoff timestamp.
+
+Useful to find out who to purge from other lists of user such as user notes, ghost ban or flairs
+
+## Daily Post Limit
+
+Find the list of user exceeding the daily post limit
+
+## Flair Data
+
+Get the flair usage data from a subreddit
 
 ## Usernotes Manipulation
 
