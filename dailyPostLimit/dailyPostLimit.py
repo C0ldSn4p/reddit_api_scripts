@@ -152,6 +152,9 @@ for author, history in postHistory.items():
             while timestamp > limit:
                 print("\t"+str(i+1)+" - "+datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S (UTC)')+" ("+str(timestamp)+"): "+link)
                 i += 1
-                timestamp, link = history[flag+i]
+                if flag+i < len(history):
+                    timestamp, link = history[flag+i]
+                else:
+                    break
             print("------------------------------------------")
 
